@@ -80,7 +80,8 @@
   .game-card-num { font-size: 0.62rem; color: var(--dim); letter-spacing: 0.15em; margin-bottom: 18px; }
   .game-card-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1rem; margin-bottom: 10px; }
   .game-card-status { font-size: 0.62rem; color: var(--dim); letter-spacing: 0.1em; text-transform: uppercase; display: flex; align-items: center; gap: 6px; }
-  .game-card-status::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #4ade80; display: block; }
+  .game-card-status.green::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #4ade80; display: block; }
+  .game-card-status.purple::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #a855f7; display: block; }
   .features-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); }
   .feature-card { background: var(--bg); padding: 34px 30px; transition: background 0.2s; }
   .feature-card:hover { background: var(--surface); }
@@ -127,8 +128,7 @@
     <a href="#games">Games</a>
     <a href="#features">Features</a>
     <a href="#pricing">Pricing</a>
-    <a href="https://discord.gg/YOUR_INVITE" target="_blank">Discord</a>
-    <a href="/admin">Admin</a>
+    <a href="https://discord.gg/jZKtfxN9Fd" target="_blank">Discord</a>
   </div>
 </nav>
 
@@ -136,11 +136,11 @@
   <div class="hero-tag">PvP Enhancement · Lightsaber Games</div>
   <h1>pulse<em>.xd</em><br>top <em>#1</em></h1>
   <p class="hero-desc">
-    The most advanced PvP script for lightsaber games on Roblox.
-    Auto PB, Kill Aura, No Cooldown Swing, Mod Detection and more — built by irony.
+    The most advanced PvP script for games on Roblox.
+    Supports 1 game, 2 games will be added soon
   </p>
   <div class="hero-actions">
-    <a href="https://discord.gg/YOUR_INVITE" class="btn btn-primary" target="_blank">Join Discord ↗</a>
+    <a href="https://discord.gg/jZKtfxN9Fd" class="btn btn-primary" target="_blank">Join Discord ↗</a>
     <a href="#pricing" class="btn btn-secondary">View Pricing</a>
   </div>
 </section>
@@ -194,6 +194,11 @@
       <div class="feature-title">Mod Detector</div>
       <div class="feature-desc">Detects moderators by group rank on join. Supports notify, server hop and auto shutdown responses.</div>
     </div>
+        <div class="feature-card">
+      <div class="feature-icon">✋</div>
+      <div class="feature-title">Mod Detector</div>
+      <div class="feature-desc">Detects moderators by group rank on join. Supports notify, server hop and auto shutdown responses.</div>
+    </div>
     <div class="feature-card">
       <div class="feature-icon">✨</div>
       <div class="feature-title">And More</div>
@@ -207,7 +212,7 @@
   <div class="pricing-grid">
     <div class="pricing-card">
       <div class="pricing-label">Robux</div>
-      <div class="pricing-price">800</div>
+      <div class="pricing-price">450</div>
       <div class="pricing-period">Robux · one time</div>
       <ul class="pricing-features">
         <li class="pricing-feature">Full script access</li>
@@ -215,19 +220,19 @@
         <li class="pricing-feature">Discord support</li>
         <li class="pricing-feature">All future updates</li>
       </ul>
-      <a href="https://discord.gg/YOUR_INVITE" class="btn btn-secondary" style="width:100%;justify-content:center;" target="_blank">Purchase via Discord</a>
+      <a href="https://discord.gg/jZKtfxN9Fd" class="btn btn-secondary" style="width:100%;justify-content:center;" target="_blank">Purchase via Discord</a>
     </div>
     <div class="pricing-card featured">
-      <div class="pricing-label">Discord Nitro</div>
-      <div class="pricing-price">$10</div>
-      <div class="pricing-period">USD · one time</div>
+      <div class="pricing-label">Discord Server Boosts</div>
+      <div class="pricing-price">x2</div>
+      <div class="pricing-period">Boosts · one time</div>
       <ul class="pricing-features">
         <li class="pricing-feature">Full script access</li>
         <li class="pricing-feature">HWID lock</li>
         <li class="pricing-feature">Discord support</li>
         <li class="pricing-feature">All future updates</li>
       </ul>
-      <a href="https://discord.gg/YOUR_INVITE" class="btn btn-dark" style="width:100%;justify-content:center;" target="_blank">Purchase via Discord</a>
+      <a href="https://discord.gg/jZKtfxN9Fd" class="btn btn-dark" style="width:100%;justify-content:center;" target="_blank">Purchase via Discord</a>
     </div>
     <div class="pricing-card">
       <div class="pricing-label">YouTube Showcase</div>
@@ -239,7 +244,7 @@
         <li class="pricing-feature">HWID lock</li>
         <li class="pricing-feature">Discord support</li>
       </ul>
-      <a href="https://discord.gg/YOUR_INVITE" class="btn btn-secondary" style="width:100%;justify-content:center;" target="_blank">Apply via Discord</a>
+      <a href="https://discord.gg/jZKtfxN9Fd" class="btn btn-secondary" style="width:100%;justify-content:center;" target="_blank">Apply via Discord</a>
     </div>
   </div>
 </section>
@@ -247,10 +252,10 @@
 <footer>
   <div class="footer-logo">pulse<span>.xd</span></div>
   <div class="footer-links">
-    <a href="https://discord.gg/YOUR_INVITE" target="_blank">Discord</a>
+    <a href="https://discord.gg/jZKtfxN9Fd" target="_blank">Discord</a>
     <a href="/admin">Admin</a>
   </div>
-  <div class="footer-copy">Made with ♥ by irony</div>
+  <div class="footer-copy">Made with ♥ by Pulse</div>
 </footer>
 
 </body>
