@@ -31,6 +31,24 @@
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
     pointer-events: none; z-index: 999; opacity: 0.4;
   }
+  .info-box {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  padding: 38px 34px;
+  max-width: 850px;
+}
+
+.info-box h2 {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.8rem;
+  margin-bottom: 16px;
+}
+
+.info-box p {
+  color: var(--dim);
+  font-size: 0.82rem;
+  line-height: 1.8;
+}
   nav {
     position: fixed; top: 0; left: 0; right: 0; z-index: 100;
     display: flex; align-items: center; justify-content: space-between;
@@ -74,7 +92,7 @@
   .section { padding: 80px 48px; border-bottom: 1px solid var(--border); }
   .section-label { font-size: 0.63rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--dim); margin-bottom: 40px; display: flex; align-items: center; gap: 14px; }
   .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
-  .games-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); }
+  .games-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); }
   .game-card { background: var(--bg); padding: 30px 26px; transition: background 0.2s; }
   .game-card:hover { background: var(--surface); }
   .game-card-num { font-size: 0.62rem; color: var(--dim); letter-spacing: 0.15em; margin-bottom: 18px; }
@@ -126,7 +144,7 @@
   <div class="nav-logo">pulse<span>.xd</span></div>
   <div class="nav-links">
     <a href="#games">Games</a>
-    <a href="#features">Features</a>
+    <a href="#features">Information</a>
     <a href="#pricing">Pricing</a>
     <a href="https://discord.gg/jZKtfxN9Fd" target="_blank">Discord</a>
   </div>
@@ -167,43 +185,14 @@
 </section>
 
 <section class="section" id="features">
-  <div class="section-label">Features</div>
-  <div class="features-grid">
-    <div class="feature-card">
-      <div class="feature-icon">🛡️</div>
-      <div class="feature-title">Auto Perfect Block</div>
-      <div class="feature-desc">Animation-based block direction detection. Fires the correct block remote the instant a swing animation is detected.</div>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">🗡️</div>
-      <div class="feature-title">Kill Aura</div>
-      <div class="feature-desc">Proximity-based kill aura with configurable range and cooldown. Only activates when enemies are nearby.</div>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">⚡</div>
-      <div class="feature-title">No Cooldown Swing</div>
-      <div class="feature-desc">Resets client swing state via getgc scan. 2.5s active / 1.5s pause cycle for maximum reliability.</div>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">💀</div>
-      <div class="feature-title">Kill All</div>
-      <div class="feature-desc">Targets all nearby players. Skips dueling players automatically and supports air offset positioning.</div>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">🔍</div>
-      <div class="feature-title">Mod Detector</div>
-      <div class="feature-desc">Detects moderators by group rank on join. Supports notify, server hop and auto shutdown responses.</div>
-    </div>
-        <div class="feature-card">
-      <div class="feature-icon">✋</div>
-      <div class="feature-title">Mod Detector</div>
-      <div class="feature-desc">Detects moderators by group rank on join. Supports notify, server hop and auto shutdown responses.</div>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">✨</div>
-      <div class="feature-title">And More</div>
-      <div class="feature-desc">Anti Slap, Anti PB, Swing Speed, Point Farm, Target System, Loop Kill, Server Hop and more.</div>
-    </div>
+  <div class="section-label">Information</div>
+  <div class="info-box">
+    <h2>About pulse.xd</h2>
+    <p>
+      Pulse.xd is a paid script, it is also stated in the Discord.
+      The script provides premium features, and a premium UI.
+      Pulse.xd is a ROBLOX script, not anything else.
+    </p>
   </div>
 </section>
 
@@ -253,7 +242,6 @@
   <div class="footer-logo">pulse<span>.xd</span></div>
   <div class="footer-links">
     <a href="https://discord.gg/jZKtfxN9Fd" target="_blank">Discord</a>
-    <a href="/admin">Admin</a>
   </div>
   <div class="footer-copy">Made with ♥ by Pulse</div>
 </footer>
