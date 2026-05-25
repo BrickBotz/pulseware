@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>pulse.xd announcements</title>
+<style>
+body{background:#080808;color:#f0f0f0;font-family:monospace;padding:60px}
+.card{border:1px solid #1e1e1e;padding:30px;margin-bottom:20px;animation:fade .4s ease}
+p{color:#777}
+@keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+<h1>Announcements</h1>
+<div id="list"></div>
+
+<script>
+async function load(){
+  const res = await fetch("/api/announcements");
+  let items = await res.json();
+
+  const now = Date.now();
+  items = items.filter(a => !a.expiresAt || a.expiresAt > now);
+
+  if(items.length === 0){
+    list.innerHTML = "<div class='card'><h2>No announcements</h2><p>Wait for the developer to do announcements</p></div>";
+    return;
+  }
+
+  list.innerHTML = items.map(a => `
+    <div class="card">
+      <h2>${a.title}</h2>
+      <p>${a.description}</p>
+    </div>
+  `).join("");
+}
+load();
+setInterval(load, 5000);
+</script>
+</body>
+</html>
