@@ -2,11 +2,22 @@
 <html>
 <head>
 <title>pulse.xd announcements</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
-body{background:#080808;color:#f0f0f0;font-family:monospace;padding:60px}
-.card{border:1px solid #1e1e1e;padding:30px;margin-bottom:20px;animation:fade .4s ease}
-p{color:#777}
+*{box-sizing:border-box}
+body{background:#080808;color:#f0f0f0;font-family:monospace;margin:0;padding:60px}
+h1{font-size:3rem;margin-bottom:30px}
+.card{border:1px solid #1e1e1e;padding:30px;margin-bottom:22px;animation:fade .4s ease;background:#080808}
+h2{margin-bottom:12px}
+p{color:#777;line-height:1.7}
 @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:768px){
+  body{padding:28px 18px}
+  h1{font-size:2rem}
+  .card{padding:22px;margin-bottom:16px}
+  h2{font-size:1.25rem}
+  p{font-size:.95rem}
+}
 </style>
 </head>
 <body>
@@ -17,7 +28,6 @@ p{color:#777}
 async function load(){
   const res = await fetch("/api/announcements");
   let items = await res.json();
-
   const now = Date.now();
   items = items.filter(a => !a.expiresAt || a.expiresAt > now);
 
