@@ -1,13 +1,29 @@
-export async function onRequestPost(context) {
-  const { username, password } = await context.request.json();
+export async function onRequestGet(context) {
+  const cookie = context.request.headers.get("Cookie") || "";
 
-  if (username === "--1.3>" && password === "0.F7s--1") {
-    return new Response("OK", {
+  const isAdmin = cookie.includes("pulse_admin=loggedin");
+
+  if (!isAdmin) {
+    return new Response("Access Denied", {
+      status: 403,
       headers: {
-        "Set-Cookie": "pulse_admin=loggedin; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=86400"
+        "Content-Type": "text/plain"
       }
     });
   }
 
-  return new Response("Invalid", { status: 401 });
+  return new Response(`<!DOCTYPE html>
+<html>
+<head>
+<title>Satire Server Panel</title>
+</head>
+<body style="background:#080808;color:white;font-family:Arial">
+<h1>Satire Server Panel</h1>
+<p>You are logged in.</p>
+</body>
+</html>`, {
+    headers: {
+      "Content-Type": "text/html"
+    }
+  });
 }
