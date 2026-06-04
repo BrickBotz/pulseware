@@ -1,11 +1,7 @@
 export async function onRequestGet(context) {
   const cookie = context.request.headers.get("Cookie") || "";
 
-  const isAdmin =
-    cookie.includes("admin=true") ||
-    cookie.includes("admin=1");
-
-  if (!isAdmin) {
+  if (!cookie.includes("pulse_admin=loggedin")) {
     return new Response("Access Denied", {
       status: 403,
       headers: {
@@ -14,45 +10,16 @@ export async function onRequestGet(context) {
     });
   }
 
-  const html = `<!DOCTYPE html>
+  return new Response(`<!DOCTYPE html>
 <html>
 <head>
-  <title>Satire Server Panel</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body {
-      background: #080808;
-      color: white;
-      font-family: Arial, sans-serif;
-      padding: 40px;
-    }
-    .box {
-      max-width: 900px;
-      margin: auto;
-      border: 1px solid #333;
-      padding: 25px;
-      border-radius: 12px;
-      background: #111;
-    }
-    a {
-      color: white;
-    }
-  </style>
+  <title>Pulse Server</title>
 </head>
-<body>
-  <div class="box">
-    <h1>Satire Server Panel</h1>
-    <p>You are logged in as admin.</p>
-
-    <h3>Available Routes</h3>
-    <p><a href="/server/script?game=106525922058591">Test Game Script</a></p>
-    <p><a href="/api/games">View Games API</a></p>
-    <p><a href="/api/hubhandler">View Hubhandler</a></p>
-  </div>
+<body style="background:#080808;color:white;font-family:Arial;padding:40px">
+  <h1>Pulse Server Panel</h1>
+  <p>You are logged in.</p>
 </body>
-</html>`;
-
-  return new Response(html, {
+</html>`, {
     status: 200,
     headers: {
       "Content-Type": "text/html"
