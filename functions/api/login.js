@@ -1,29 +1,20 @@
-export async function onRequestGet(context) {
-  const cookie = context.request.headers.get("Cookie") || "";
+export async function onRequestPost(context) {
+  const { username, password } = await context.request.json();
 
-  const isAdmin = cookie.includes("pulse_admin=loggedin");
-
-  if (!isAdmin) {
-    return new Response("Access Denied", {
-      status: 403,
+  if (username === "--1.3>" && password === "0.F7s--1") {
+    return new Response(JSON.stringify({ ok: true }), {
+      status: 200,
       headers: {
-        "Content-Type": "text/plain"
+        "Content-Type": "application/json",
+        "Set-Cookie": "pulse_admin=loggedin; Path=/; Secure; SameSite=Lax; Max-Age=86400"
       }
     });
   }
 
-  return new Response(`<!DOCTYPE html>
-<html>
-<head>
-<title>Satire Server Panel</title>
-</head>
-<body style="background:#080808;color:white;font-family:Arial">
-<h1>Satire Server Panel</h1>
-<p>You are logged in.</p>
-</body>
-</html>`, {
+  return new Response(JSON.stringify({ ok: false, error: "Invalid" }), {
+    status: 401,
     headers: {
-      "Content-Type": "text/html"
+      "Content-Type": "application/json"
     }
   });
 }
