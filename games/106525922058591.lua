@@ -1,3 +1,5 @@
+-- // Satire | Airflow UI | Glass Bridge Cleaned & Fixed
+
 local Airflow = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/4lpaca-pin/Airflow/refs/heads/main/src/source.luau"))()
 
 local RunService        = game:GetService("RunService")
@@ -7,6 +9,9 @@ local UserInputService  = game:GetService("UserInputService")
 local TweenService      = game:GetService("TweenService")
 local LocalPlayer       = Players.LocalPlayer
 
+-- ════════════════════════════════════════
+--   WINDOW
+-- ════════════════════════════════════════
 local Window = Airflow:Init({
     Name        = "Satire",
     Keybind     = "RightControl",
@@ -16,6 +21,9 @@ local Window = Airflow:Init({
     IconSize    = 0,
 })
 
+-- ════════════════════════════════════════
+--   NEON WHITE OUTLINE
+-- ════════════════════════════════════════
 task.defer(function()
     task.wait(0.35)
     local CoreGui = game:GetService("CoreGui")
@@ -47,14 +55,20 @@ task.defer(function()
     end)
 end)
 
+-- ════════════════════════════════════════
+--   SERVICES / REFS
+-- ════════════════════════════════════════
 local Tiles            = workspace:WaitForChild("Tiles")
 local GameFolder       = workspace:WaitForChild("Game")
 local MiniGlassBridge  = GameFolder:WaitForChild("MiniGlassBridge")
-local MiniGlassFolder  = MiniGlassBridge:WaitForChild("Glass")
+local MiniGlassFolder  = MiniGlassBridge:WaitForChild("Glass") -- Added deep nested Glass folder configuration
 local CorrectTiles     = ReplicatedStorage:WaitForChild("ClientConfiguration"):WaitForChild("CorrectTiles")
 local WinEvent         = ReplicatedStorage:WaitForChild("Events"):WaitForChild("Win")
 local CrateEvent       = ReplicatedStorage:WaitForChild("Events"):WaitForChild("Crate")
 
+-- ════════════════════════════════════════
+--   HELPERS & STATE TRACKING
+-- ════════════════════════════════════════
 local Connections = {}
 local OriginalProperties = {} 
 local AuraRadius = 20
@@ -104,7 +118,7 @@ local function getTileCFrame(bridgeIndex)
     
     local bridge = nil
     if bridgeIndex >= 100 and bridgeIndex <= 107 then
-        bridge = MiniGlassFolder:FindFirstChild(tostring(bridgeIndex))
+        bridge = MiniGlassFolder:FindFirstChild(tostring(bridgeIndex)) -- Targets workspace.Game.MiniGlassBridge.Glass
     else
         bridge = Tiles:FindFirstChild(tostring(bridgeIndex))
     end
@@ -154,6 +168,9 @@ local function GetEquippedOrBackpackWeapon()
     return nil
 end
 
+-- ════════════════════════════════════════
+--   TABS
+-- ════════════════════════════════════════
 local MainTab   = Window:DrawTab({ Name = "Main"   })
 local TargetTab = Window:DrawTab({ Name = "Target", Icon = "crosshair" })
 local MiscTab   = Window:DrawTab({ Name = "Misc",   Icon = "folder"    })
@@ -163,6 +180,9 @@ local CoinSection  = MainTab:AddSection({ Name = "Coins", Position = "left"  })
 local AuraSection  = MainTab:AddSection({ Name = "Slap Aura", Position = "right" })
 local GlassSection = MainTab:AddSection({ Name = "Glass Bridge", Position = "left" })
 
+-- ════════════════════════════════════════
+--   WIN FARM
+-- ════════════════════════════════════════
 WinSection:AddToggle({
     Name     = "Win Farm",
     Default  = false,
@@ -187,6 +207,9 @@ WinSection:AddButton({
     end,
 })
 
+-- ════════════════════════════════════════
+--   COINS
+-- ════════════════════════════════════════
 local FarmConnection = nil
 local FarmActive     = false
 
@@ -224,11 +247,16 @@ CoinSection:AddToggle({
     end,
 })
 
+-- ════════════════════════════════════════
+--   SLAP AURA (MAIN TAB - LEFT SIDE)
+-- ════════════════════════════════════════
 AuraSection:AddToggle({
     Name     = "Slap Aura",
     Default  = false,
     Callback = function(state)
         if state then
+            -- Clean out old runs to avoid duplicate background loops stacking up
+            Disconnect("SlapAura")
             Connections["SlapAura"] = RunService.Heartbeat:Connect(function()
                 local targetChar = GetClosestPlayer()
                 if targetChar then
@@ -254,7 +282,7 @@ AuraSection:AddToggle({
 })
 
 AuraSection:AddSlider({
-    Name     = "Aura Range",
+    Name     = "Range",
     Min      = 5,
     Max      = 50,
     Default  = 20,
@@ -264,6 +292,9 @@ AuraSection:AddSlider({
     end,
 })
 
+-- ════════════════════════════════════════
+--   GLASS BRIDGE (1 - 50)
+-- ════════════════════════════════════════
 local PathHighlights = {}
 local function ClearPath()
     for _, h in pairs(PathHighlights) do pcall(function() h:Destroy() end) end
@@ -342,6 +373,9 @@ GlassSection:AddTextbox({
     end,
 })
 
+-- ════════════════════════════════════════
+--   TARGET PLAYER
+-- ════════════════════════════════════════
 local TargetSection = TargetTab:AddSection({ Name = "Target Player", Position = "left" })
 local TargetName     = ""
 
@@ -438,6 +472,9 @@ TargetSection:AddButton({
     end,
 })
 
+-- ════════════════════════════════════════
+--   MISC TAB (MINI GLASS ESP 100-107 & MOVEMENT)
+-- ════════════════════════════════════════
 local MiscLeft  = MiscTab:AddSection({ Name = "Glass",    Position = "left"  })
 local MiscRight = MiscTab:AddSection({ Name = "Movement", Position = "right" })
 
@@ -450,7 +487,7 @@ end
 local function DrawMiniESP()
     ClearMiniESP()
     for i = 100, 107 do
-        local bridge   = MiniGlassFolder:FindFirstChild(tostring(i))
+        local bridge   = MiniGlassFolder:FindFirstChild(tostring(i)) -- Pointed straight into the new 'Glass' folder
         local valueObj = CorrectTiles:FindFirstChild(tostring(i))
         if bridge and valueObj then
             local correctSide = tostring(valueObj.Value)
@@ -517,6 +554,9 @@ MiscLeft:AddDropdown({
     end,
 })
 
+-- ════════════════════════════════════════
+--   MOVEMENT MECHANICS
+-- ════════════════════════════════════════
 MiscRight:AddToggle({
     Name     = "NoClip",
     Default  = false,
