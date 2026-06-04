@@ -1,5 +1,3 @@
-const RAW_BASE = "https://raw.githubusercontent.com/BrickBotz/Pulze/refs/heads/main/games";
-
 const SUPPORTED_GAMES = {
   "106525922058591": true
 };
@@ -16,7 +14,7 @@ function isBrowser(request) {
 
 function loaderLua() {
   return `
-local SCRIPT_URL = "https://pulseware.lol/server/script?game="
+local BASE_URL = "https://pulseware.lol/server/script"
 local gameId = tostring(game.PlaceId)
 
 local supported = {
@@ -24,77 +22,26 @@ local supported = {
 }
 
 if not supported[gameId] then
-    warn("[Pulse.xd] Unsupported game: " .. gameId)
+    warn("[Pulse.xd] Unsupported game id: " .. gameId)
     return
 end
 
-local Airflow = loadstring(game:HttpGetAsync(
-    "https://raw.githubusercontent.com/4lpaca-pin/Airflow/refs/heads/main/src/source.luau"
-))()
-
-local function PatchStroke()
-    task.defer(function()
-        task.wait(0.35)
-        local CoreGui = game:GetService("CoreGui")
-
-        local function Patch(parent)
-            for _, gui in ipairs(parent:GetChildren()) do
-                if gui:IsA("ScreenGui") and gui.Name:sub(1,8) == ".Airflow" then
-                    for _, frame in ipairs(gui:GetChildren()) do
-                        if frame:IsA("Frame") then
-                            local stroke = frame:FindFirstChildOfClass("UIStroke")
-                            if stroke then
-                                local grad = stroke:FindFirstChildOfClass("UIGradient")
-                                if grad then grad:Destroy() end
-                                stroke.Color = Color3.fromRGB(255,255,255)
-                                stroke.Thickness = 3
-                                stroke.Transparency = 0
-                                stroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
-                            end
-                            return
-                        end
-                    end
-                end
-            end
-        end
-
-        Patch(CoreGui)
-
-        CoreGui.ChildAdded:Connect(function(c)
-            if c:IsA("ScreenGui") and c.Name:sub(1,8) == ".Airflow" then
-                task.wait(0.2)
-                Patch(CoreGui)
-            end
-        end)
-    end)
-end
-
-local ok, gameScript = pcall(function()
-    return game:HttpGetAsync(SCRIPT_URL .. gameId)
+local ok, code = pcall(function()
+    return game:HttpGet(BASE_URL .. "?game=" .. gameId .. "&t=" .. tostring(os.time()))
 end)
 
-if not ok or not gameScript or gameScript == "" or gameScript == "UNSUPPORTED" then
-    Airflow:Notify({
-        Title = "Pulse.xd",
-        Content = "Game is not supported                    ",
-        Duration = false,
-    })
+if not ok or not code or code == "" or code == "UNSUPPORTED" then
+    warn("[Pulse.xd] Game script failed for game id: " .. gameId)
     return
 end
 
-local env = setmetatable({
-    Airflow = Airflow,
-    PatchStroke = PatchStroke,
-}, { __index = getfenv() })
-
-local fn, err = loadstring(gameScript)
-
-if fn then
-    setfenv(fn, env)
-    fn()
-else
-    warn("[Pulse.xd] Failed to load game script: " .. tostring(err))
+local fn, err = loadstring(code)
+if not fn then
+    warn("[Pulse.xd] Loadstring error: " .. tostring(err))
+    return
 end
+
+fn()
 `;
 }
 
@@ -113,10 +60,10 @@ export async function onRequestGet(context) {
     });
   }
 
-  // Main loader: https://pulseware.lol/server/script
+  // Main buyer loader:
+  // https://pulseware.lol/server/script
   if (!gameId) {
     return new Response(loaderLua(), {
-      status: 200,
       headers: {
         "Content-Type": "text/plain",
         "Cache-Control": "no-store"
@@ -124,20 +71,21 @@ export async function onRequestGet(context) {
     });
   }
 
-  // Game-specific script
   if (!SUPPORTED_GAMES[gameId]) {
     return new Response("UNSUPPORTED", {
-      status: 200,
       headers: { "Content-Type": "text/plain" }
     });
   }
 
-  const rawUrl = `${RAW_BASE}/${gameId}.lua`;
-  const res = await fetch(rawUrl);
+  // Loads from your Cloudflare Pages static games folder:
+  // /games/106525922058591.lua
+  const gameFileUrl = new URL(`/games/${gameId}.lua`, request.url);
+  const res = await fetch(gameFileUrl.toString(), {
+    headers: { "Cache-Control": "no-store" }
+  });
 
   if (!res.ok) {
     return new Response("UNSUPPORTED", {
-      status: 200,
       headers: { "Content-Type": "text/plain" }
     });
   }
@@ -145,7 +93,6 @@ export async function onRequestGet(context) {
   const code = await res.text();
 
   return new Response(code, {
-    status: 200,
     headers: {
       "Content-Type": "text/plain",
       "Cache-Control": "no-store"
